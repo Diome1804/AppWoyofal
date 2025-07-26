@@ -1,9 +1,12 @@
-# Configuration pour Render avec Railway DB
+# Configuration pour Render avec image Docker Hub
 services:
   - type: web
     name: appwoyofal
     env: docker
     plan: free
+    dockerfilePath: ./Dockerfile
+    # Optionnel: utiliser une image pré-buildée depuis Docker Hub
+    # dockerCommand: docker run -p $PORT:8080 diome18/appwoyofal:latest
     envVars:
       - key: APP_ENV
         value: production

@@ -1,0 +1,39 @@
+# Git et documentation
+.git/
+.gitignore
+*.md
+README.md
+DEPLOY_RENDER.md
+POSTMAN_TESTS.md
+SCHEDULER_DOCUMENTATION.md
+
+# Docker
+docker-compose.yml
+.dockerignore
+
+# Environnement
+.env
+.env.example
+.vscode/
+.idea/
+
+# Dépendances (sera installé dans le container)
+vendor/
+node_modules/
+
+# Fichiers temporaires
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+# Scripts de développement
+setup_railway.php
+check_railway_data.php
+add_test_data_railway.php
+test_railway_connection.php
+start.sh
+
+# Tests
+tests/
+phpunit.xml
