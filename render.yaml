@@ -4,11 +4,8 @@ services:
     name: appwoyofal
     env: php
     plan: free
-    buildCommand: |
-      composer install --no-dev --optimize-autoloader
-    startCommand: |
-      php scripts/setup_database.php
-      php -S 0.0.0.0:$PORT -t public
+    buildCommand: composer install --no-dev --optimize-autoloader
+    startCommand: ./start.sh
     envVars:
       - key: APP_ENV
         value: production
