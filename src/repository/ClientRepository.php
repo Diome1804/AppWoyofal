@@ -10,9 +10,10 @@ use PDOException;
 
 class ClientRepository implements ClientRepositoryInterface
 {
-    public function __construct(
-        private readonly Database $database
-    ) {}
+    public function __construct(private readonly Database $database) 
+    {
+        
+    } 
 
     private function getPdo(): PDO
     {

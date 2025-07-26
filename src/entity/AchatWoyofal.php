@@ -212,7 +212,7 @@ class AchatWoyofal extends AbstractEntity
             throw new \InvalidArgumentException('Le nombre de kWh doit être positif');
         }
     }
-
+    
     private function validateStatut(string $statut): void
     {
         $statutsValides = ['success', 'pending', 'failed', 'cancelled'];

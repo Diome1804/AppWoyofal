@@ -4,9 +4,9 @@ services:
     name: appwoyofal
     env: docker
     plan: free
-    dockerfilePath: ./Dockerfile
-    # Optionnel: utiliser une image pré-buildée depuis Docker Hub
-    # dockerCommand: docker run -p $PORT:8080 diome18/appwoyofal:latest
+    # Utiliser l'image pré-buildée depuis Docker Hub
+    image:
+      url: docker.io/diome18/appwoyofal:latest
     envVars:
       - key: APP_ENV
         value: production
