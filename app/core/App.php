@@ -77,6 +77,14 @@ class App
                     return $className::getInstance();
                 }
                 
+                // Vérifier si le constructeur a des paramètres requis
+                $reflection = new \ReflectionClass($className);
+                $constructor = $reflection->getConstructor();
+                
+                if ($constructor && $constructor->getNumberOfRequiredParameters() > 0) {
+                    throw new \Exception("La classe {$className} nécessite des dépendances dans son constructeur");
+                }
+                
                 return new $className();
             }
         }

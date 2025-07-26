@@ -1,0 +1,15 @@
+# Fichiers à ignorer lors du déploiement Render
+.git/
+.env
+.env.example
+docker/
+docker-compose.yml
+Dockerfile
+.dockerignore
+public/test_api.php
+README.md
+*.md
+vendor/
+node_modules/
+.vscode/
+.idea/

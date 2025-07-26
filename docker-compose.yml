@@ -1,0 +1,61 @@
+version: '3.9'
+
+services:
+  # Service PHP-FPM (remplace "appwoyofal")
+  php:
+    build: .
+    container_name: appwoyofal_php
+    volumes:
+      - .:/var/www/html  # Synchronisation des fichiers
+    networks:
+      - app-network
+
+  # Service Nginx
+  nginx:
+    image: nginx:alpine
+    container_name: appwoyofal_nginx
+    ports:
+      - "8081:80"  # Port exposé (http://localhost:8081)
+    volumes:
+      - .:/var/www/html  # Partage du code
+      - ./docker/nginx:/etc/nginx/conf.d  # Config Nginx
+    depends_on:
+      - php  # Dépend de PHP-FPM
+    networks:
+      - app-network
+
+  # Base de données PostgreSQL
+  db:
+    image: postgres:15
+    container_name: appwoyofal_db
+    ports:
+      - "5433:5432"  # Port exposé pour accès local
+    environment:
+      POSTGRES_DB: appwoyofal
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+    volumes:
+      - db-data:/var/lib/postgresql/data  # Persistance des données
+    networks:
+      - app-network
+
+  # PGAdmin (interface web pour PostgreSQL)
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: appwoyofal_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: lextimide@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: Codou1998
+    ports:
+      - "5052:80"  # http://localhost:5052
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+volumes:
+  db-data:  # Volume pour PostgreSQL
+
+networks:
+  app-network:
+    driver: bridge

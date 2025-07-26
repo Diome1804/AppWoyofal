@@ -1,28 +1,38 @@
 {
-    "name": "tabbbzero/archiectureprojet",
+    "name": "lex/projet",
     "autoload": {
         "psr-4": {
-            "Nianga\\TestProjet\\": "src/",
-            "App\\Entity\\": "src/entity/",
+            "App\\Config\\": "app/config/",
             "App\\Core\\": "app/core/",
-            "App\\Repository\\": "src/repository/",
-            "App\\Service\\": "src/service/",
-            "App\\Controller\\": "src/controller/",
             "App\\Core\\Abstract\\": "app/core/abstract/",
-            "App\\Core\\Middlewares\\": "app/core/middlewares/"
+            "App\\Core\\Middlewares\\": "app/core/middlewares/",
+            "App\\Migrations\\": "migrations/",
+            "App\\Seeders\\": "seeders/",
+            "Src\\Controller\\": "src/controller/",
+            "Src\\Entity\\": "src/entity/",
+            "Src\\Repository\\": "src/repository/",
+            "Src\\Repository\\Interface\\": "src/repository/interface/",
+            "Src\\Service\\": "src/service/",
+            "Src\\Service\\Interface\\": "src/service/interface/"
         }
     },
     "authors": [
         {
-            "name": "Nianga Mbaye",
-            "email": "mbayenianga28@gmail.com"
+            "name": "Abdoulaye Diome",
+            "email": "lextimide@gmail.com"
         }
     ],
     "require": {
         "vlucas/phpdotenv": "^5.6",
-        "cloudinary/cloudinary_php": "^3.1"
+        "dragonmantank/cron-expression": "^3.4"
     },
-
-    "type" :"project"
-
+    "scripts": {
+        "database:migrate": "php migrations/migration.php",
+        "database:seed": "php seeders/seeder.php",
+        "database:clean": "php seeders/clean.php",
+        "database:fresh": [
+            "@database:clean",
+            "@database:seed"
+        ]
+    }
 }

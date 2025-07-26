@@ -22,13 +22,17 @@ class Database{
       protected function __construct() {
         
         try {
-            $user = getenv('DB_USER');
-            $password = getenv('DB_PASSWORD');
-            $dsn = getenv('dsn');
+            $host = DB_HOST;
+            $port = DB_PORT;
+            $database = DB_DATABASE;
+            $username = DB_USERNAME;
+            $password = DB_PASSWORD;
+            
+            $dsn = "pgsql:host=$host;port=$port;dbname=$database";
            
             $this->connection = new PDO(
              $dsn,
-              $user,
+              $username,
               $password,
               [
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,

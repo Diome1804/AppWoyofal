@@ -3,6 +3,8 @@
 namespace App\Core;
 
 use App\Core\Singleton;
+use App\Core\App;
+use App\Core\Database;
 require_once "../app/config/middlewares.php";
 
 class Router extends Singleton
@@ -88,7 +90,16 @@ class Router extends Singleton
                 return;
             }
 
-            $controller = new $controllerClass();
+            // Utiliser App::getDependency pour instancier le contrôleur avec ses dépendances
+            $controllerName = basename(str_replace('\\', '/', $controllerClass));
+            $controllerKey = lcfirst($controllerName);
+            
+            try {
+                $controller = App::getDependency($controllerKey);
+            } catch (\Exception $e) {
+                // Fallback : instanciation manuelle pour développement
+                $controller = self::createControllerWithDependencies($controllerClass);
+            }
             
             if (!method_exists($controller, $method)) {
                 self::sendJsonResponse(['error' => 'Method not found'], 500);
@@ -101,7 +112,7 @@ class Router extends Singleton
                 $controller->$method();
             }
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             self::sendJsonResponse(['error' => 'Internal server error', 'message' => $e->getMessage()], 500);
         }
     }
@@ -128,5 +139,47 @@ class Router extends Singleton
         header('Content-Type: application/json');
         echo json_encode($data);
         exit;
+    }
+
+    /**
+     * Crée un contrôleur avec ses dépendances (fallback pour développement)
+     */
+    private static function createControllerWithDependencies(string $controllerClass)
+    {
+        // Pour WoyofalController, créer manuellement les dépendances
+        if ($controllerClass === 'Src\Controller\WoyofalController') {
+            $database = Database::getInstance();
+            
+            // Repositories
+            $logAchatRepo = new \Src\Repository\LogAchatRepository($database);
+            $compteurRepo = new \Src\Repository\CompteurRepository($database);
+            $trancheRepo = new \Src\Repository\TrancheToarifaireRepository($database);
+            $consommationRepo = new \Src\Repository\ConsommationMensuelleRepository($database);
+            $achatRepo = new \Src\Repository\AchatWoyofalRepository($database);
+            
+            // Services
+            $validationService = new \Src\Service\ValidationService();
+            $loggerService = new \Src\Service\LoggerService($logAchatRepo);
+            $trancheCalculatorService = new \Src\Service\TrancheCalculatorService(
+                $trancheRepo,
+                $consommationRepo
+            );
+            $achatService = new \Src\Service\AchatWoyofalService(
+                $compteurRepo,
+                $achatRepo,
+                $consommationRepo,
+                $trancheCalculatorService,
+                $loggerService
+            );
+            
+            return new \Src\Controller\WoyofalController(
+                $achatService,
+                $validationService,
+                $loggerService
+            );
+        }
+        
+        // Fallback générique
+        return new $controllerClass();
     }
 }

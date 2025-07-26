@@ -1,0 +1,32 @@
+# Configuration des services - Injection de dépendances
+# Respecte les principes SOLID (DIP - Dependency Inversion Principle)
+
+# Infrastructure - Base de données
+infrastructure:
+  database: App\Core\Database
+
+# Repositories - Accès aux données  
+repositories:
+  clientRepository: Src\Repository\ClientRepository
+  compteurRepository: Src\Repository\CompteurRepository
+  trancheToarifaireRepository: Src\Repository\TrancheToarifaireRepository
+  achatWoyofalRepository: Src\Repository\AchatWoyofalRepository
+  consommationMensuelleRepository: Src\Repository\ConsommationMensuelleRepository
+  logAchatRepository: Src\Repository\LogAchatRepository
+
+# Services métier - Logique business
+services:
+  validationService: Src\Service\ValidationService
+  loggerService: Src\Service\LoggerService
+  trancheCalculatorService: Src\Service\TrancheCalculatorService
+  achatWoyofalService: Src\Service\AchatWoyofalService
+  schedulerService: Src\Service\SchedulerService
+
+# Controllers - Couche présentation
+controllers:
+  woyofalController: Src\Controller\WoyofalController
+
+# Middlewares - Traitement des requêtes
+middlewares:
+  auth: App\Core\Middlewares\Auth
+  cryptPassword: App\Core\Middlewares\CryptPassword

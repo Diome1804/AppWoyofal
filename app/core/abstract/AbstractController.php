@@ -7,28 +7,10 @@ use app\core\Singleton;
 abstract class AbstractController extends Singleton{
  
 
-    protected   $layout = 'base';
-
-    
-    
-
-    abstract public function index();
-    // abstract public function create();
-    // abstract public function store();
-    // abstract public function edit();
-    // // abstract public function destroy();
-    // abstract public function show();
-
-    
-
-   
-    
-       public function renderJson($data, $httpCode = 200)
-    {
-        if (ob_get_level()) {
-            ob_clean();
-        }
-                 
+ abstract public function index();
+           
+    public function renderJson($data, $httpCode = 200)
+    {   
         http_response_code($httpCode);
         header('Content-Type: application/json; charset=UTF-8');
         header('Cache-Control: no-cache, must-revalidate');
