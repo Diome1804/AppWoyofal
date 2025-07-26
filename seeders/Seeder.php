@@ -53,7 +53,7 @@ class Seeder
         echo "✓ " . count($tranches) . " tranches tarifaires créées\n";
     }
     
-    private function seedClients(): void
+    public function seedClients(): void
     {
         echo "Seeding des clients de test...\n";
         
@@ -84,7 +84,7 @@ class Seeder
         echo "✓ " . count($clients) . " clients de test créés\n";
     }
     
-    private function seedCompteurs(): void
+    public function seedCompteurs(): void
     {
         echo "Seeding des compteurs...\n";
         
