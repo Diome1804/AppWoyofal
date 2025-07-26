@@ -30,4 +30,4 @@ RUN chown -R www-data:www-data /var/www/html
 EXPOSE $PORT
 
 # Script de démarrage
-CMD ["sh", "-c", "php -S 0.0.0.0:${PORT:-8080} -t public"]
+CMD ["sh", "-c", "php scripts/setup_database.php && php -S 0.0.0.0:${PORT:-8080} -t public"]
